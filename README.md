@@ -27,7 +27,7 @@
 
 
 # 作業二
-
+[前往作業二](https://github.com/wannaflyhigh/LATIA112-1/blob/main/hw2/hw2.ipynb)
 
 # 作業三
 
