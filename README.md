@@ -24,7 +24,7 @@
 
 
 # 作業一
-
+[前往作業一](https://github.com/wannaflyhigh/LATIA112-1/blob/main/hw1/hw1.ipynb)
 
 # 作業二
 [前往作業二](https://github.com/wannaflyhigh/LATIA112-1/blob/main/hw2/hw2.ipynb)
