@@ -29,6 +29,8 @@
 # 作業二
 [前往作業二](https://github.com/wannaflyhigh/LATIA112-1/blob/main/hw2/hw2.ipynb)
 
+[scrapy部分](https://github.com/wannaflyhigh/LATIA112-1/blob/main/hw2/scrapy.cmd)
+
 # 作業三
 
 
