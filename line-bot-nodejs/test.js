@@ -1,0 +1,1 @@
+// console.log(process.env.LINE_ACCESS_TOKEN)
