@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+		}
+
+		#chart1,
+		#chart2,
+		#chart3 {
+			width: 80%;
+			margin: 20px auto;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div id="chart1"></div>
+	<div id="chart2"></div>
+	<div id="chart3"></div>
+
+	<script defer>
+		d3.csv("https://raw.githubusercontent.com/wannaflyhigh/LATIA112-1/main/hw2/result.csv")
+			.then(data123 => {
+				// Your data
+				console.log(data123)
+				const departmentNames = [...new Set(data123.map(e => e['系學類代碼/名稱']))]
+				console.log(departmentNames)
+				const departmentNameMapToIndex = new Map(departmentNames.map((e, i) => [e, i]));
+				console.log(departmentNameMapToIndex)
+				const departmentCount = Array(departmentNames.length).fill(0)
+				data123.forEach(e => {
+					const i = departmentNameMapToIndex.get(e['系學類代碼/名稱'])
+					departmentCount[i]++
+				})
+				const departmentNameAndCount = []
+				for (let i = 0; i < departmentCount.length; i++) {
+					departmentNameAndCount.push([departmentNames[i], departmentCount[i]])
+				}
+				const topTenDepartmentNameAndCount = departmentNameAndCount.sort((a, b) => -a[1] + b[1]).filter((e, i) => i < 10)
+				console.log(topTenDepartmentNameAndCount)
+				var data = [
+					{
+						x: topTenDepartmentNameAndCount.map(e => e[0]),
+						y: topTenDepartmentNameAndCount.map(e => e[1]),
+						type: 'bar',
+						marker: { color: ['D', 'M', 'D', 'M', 'N', 'M', 'D', 'D', 'D', 'D'] }
+					}
+				];
+
+				var layout1 = {
+					title: 'Top Ten Student Count by Department',
+					barmode: 'group'
+				};
+
+				Plotly.newPlot('chart1', data, layout1);
+
+
+				const yearAndStudentCounts = data123.map(e => [e['學年度'], e['日間/進修別']])
+				console.log(yearAndStudentCounts)
+				const years = [... new Set(data123.map(e => e['學年度']))]
+				console.log(years)
+				const yearMapToIndex = new Map(years.map((e, i) => [e, i]))
+				const yearStudentCount = Array(years.length).fill(0)
+				yearAndStudentCounts.forEach(e => yearStudentCount[yearMapToIndex.get(e[0])]++)
+
+				// Line Chart
+				var data2 = [
+					{
+						x: years,
+						y: yearStudentCount,
+						type: 'line',
+						marker: { color: 'blue' }
+					}
+				];
+
+				var layout2 = {
+					title: '總學生數和學年度的關係'
+				};
+				Plotly.newPlot('chart2', data2, layout2);
+
+
+				const studentLevels = [...new Set(data123.map(e => e['科系名稱']))]
+				console.log(studentLevels)
+				const studentLevelMapToIndex = new Map(studentLevels.map((e, i) => [e, i]))
+				const studentLevelCount = Array(studentLevels.length).fill(0)
+				data123.forEach(e => {
+					studentLevelCount[studentLevelMapToIndex.get(e['科系名稱'])]++
+
+				})
+				console.log(studentLevelCount)
+				// Pie chart
+				var data3 = [
+					{
+						// labels: ['博士', '碩士', '學士', 'N/A'],
+						labels: studentLevels,
+						// values: [101, 39, 218, 0],
+						values: studentLevelCount,
+						type: 'pie'
+					}
+				];
+
+				var layout3 = {
+					title: 'Student Count Distribution by Level'
+				};
+
+				Plotly.newPlot('chart3', data3, layout3);
+			})
+	</script>
+
+</body>
+
+</html>
