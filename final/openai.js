@@ -3,7 +3,7 @@ import * as dotenv from "dotenv"
 dotenv.config()
 // not finished yet
 
-// findTopic("細胞核")
+// findTopic("3.( ) 關於 身體 內 血管 的 構造 , 哪 一 種 管 壁 最 厚 ?(A) 動 脈 _(B) 靜 脈 (C) 微 血管 _(D) 都 一 樣 厚")
 
 export async function findTopic(text) {
 	console.log(`sending ${text}`)
