@@ -22,7 +22,7 @@ export function parseCsv(csv) {
 }
 
 export default async function csvData() {
-	const filePath = '均一高中生物(1).csv'; // Replace with the path to your CSV file
+	const filePath = 'data_collect/均一高中生物.csv'; // Replace with the path to your CSV file
 
 	const results = [];
 
