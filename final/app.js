@@ -68,11 +68,14 @@ async function handleEvent(event) {
 			const replyText = `這個問題可能和以下標題與影片有關
 			可以參考以下影片進行學習
 
-			${data[0].book_name[0]} ${topicURLmap.get(data[0].book_name[0])}
+			${topicURLmap.get(data[0].book_name[0])?.chapter}
+			${data[0].book_name[0]} ${topicURLmap.get(data[0].book_name[0])?.url}
 
-			${data[0].book_name[1]} ${topicURLmap.get(data[0].book_name[1])}
-			
-			${data[0].book_name[2]} ${topicURLmap.get(data[0].book_name[2])}`
+			${topicURLmap.get(data[0].book_name[1])?.chapter}
+			${data[0].book_name[1]} ${topicURLmap.get(data[0].book_name[1])?.url}
+
+			${topicURLmap.get(data[0].book_name[2])?.chapter}
+			${data[0].book_name[2]} ${topicURLmap.get(data[0].book_name[2])?.url}`
 			console.log(replyText)
 			return await pushMessage(userId, replyText)
 			return client.replyMessage({

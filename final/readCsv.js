@@ -12,8 +12,8 @@ export function parseCsv(csv) {
 	console.log(csv)
 	const parsed = []
 	csv.forEach(e => {
-		parsed.push([e['單元'], e['網址']])
-		parsed.push([e['課程名稱'], e['網址']])
+		// parsed.push([e['單元'], e['網址']])
+		parsed.push([e['課程名稱'], { url: e['網址'], chapter: e['單元'] }])
 	})
 
 	writeFileSync('parsed.json', JSON.stringify(parsed))
