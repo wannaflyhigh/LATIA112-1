@@ -4,6 +4,7 @@ import { findTopic } from './openai.js';
 import fetchImage, { picToText } from './ocr.js';
 import dotenv from 'dotenv'
 import csvData, { readFile } from './readCsv.js';
+import pushMessage from './linebot.js';
 dotenv.config()
 
 const app = express();
@@ -28,12 +29,15 @@ const client = new messagingApi.MessagingApiClient({
 });
 
 async function handleEvent(event) {
-	// console.log(event)
+	console.log(event)
+	const userId = event.source.userId
+
 	if (event.type === 'message') {
 		const messageType = event.message.type;
 
 		if (messageType === 'text') {
 			// Handle text messages
+			return await pushMessage(userId, `把想辨識的題目拍照上傳吧~`)
 			return client.replyMessage({
 				replyToken: event.replyToken,
 				messages: [
@@ -46,12 +50,31 @@ async function handleEvent(event) {
 		} else if (messageType === 'image') {
 			// Handle image messages
 			// You can access the image URL from event.message.contentProvider.originalContentUrl
+			await client.replyMessage({
+				replyToken: event.replyToken,
+				messages: [
+					{
+						type: 'text',
+						text: `歐窺辨識中~`,
+					},
+				],
+			})
 			await fetchImage(event.message.id)
 			const text = await picToText()
 			const data = await findTopic(text)
 			const file = readFile()
 			const topicURLmap = new Map(file)
 			// console.log(topicURLmap)
+			const replyText = `這個問題可能和以下標題與影片有關
+			可以參考以下影片進行學習
+
+			${data[0].book_name[0]} ${topicURLmap.get(data[0].book_name[0])}
+
+			${data[0].book_name[1]} ${topicURLmap.get(data[0].book_name[1])}
+			
+			${data[0].book_name[2]} ${topicURLmap.get(data[0].book_name[2])}`
+			console.log(replyText)
+			return await pushMessage(userId, replyText)
 			return client.replyMessage({
 				replyToken: event.replyToken,
 				messages: [
