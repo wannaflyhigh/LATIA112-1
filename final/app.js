@@ -55,7 +55,7 @@ async function handleEvent(event) {
 				messages: [
 					{
 						type: 'text',
-						text: `歐窺辨識中~`,
+						text: `歐虧辨識中~`,
 					},
 				],
 			})
@@ -65,7 +65,7 @@ async function handleEvent(event) {
 			const file = readFile()
 			const topicURLmap = new Map(file)
 			// console.log(topicURLmap)
-			const replyText = `這個問題可能和以下標題與影片有關
+			const replyText = `這個問題可能和以下單元的課程與影片有關
 			可以參考以下影片進行學習
 
 			${topicURLmap.get(data[0].book_name[0])?.chapter}
